@@ -106,15 +106,20 @@ class UsersController extends Controller
     //发送邮件通知
     protected function sendEmailConfirmationTo($user)
     {
+        //现在我们已经在环境配置文件完善了邮件的发送配置，因此不再需要使用 from 方法：
         $view = "emails.confirm";
         $data = compact('user');
-        $from = "zhanyuanwen@qq.com";
-        $name = "zhanyuanwen";
+        // $from = "zhanyuanwen@qq.com";
+        // $name = "zhanyuanwen";
         $to = $user->email;
         $subject = "感谢您注册 Sample 应用，请确认您的邮箱";
 
-        Mail::send($view, $data, function($message) use ($from, $name, $to, $subject){
-            $message->from($from, $name)->to($to)->subject($subject);
+        // Mail::send($view, $data, function($message) use ($from, $name, $to, $subject){
+        //     $message->from($from, $name)->to($to)->subject($subject);
+        // });
+
+        Mail::send($view, $data, function($message) use ($to, $subject){
+            $message->to($to)->subject($subject);
         });
     }
 
